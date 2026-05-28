@@ -1,0 +1,817 @@
+@charset "utf-8";
+
+html {
+	scroll-behavior: smooth;
+	font-size: 100%;
+}
+body {
+	overflow-x: hidden;
+	margin: 0;
+	font-family: "Noto Sans JP", sans-serif;
+	background: url(../../img/bg.png);
+}
+.contents {
+	transition: transform .6s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+.align-center {
+    font-size: 20px;
+}
+.barlow-condensed-regular {
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.barlow-condensed-bold {
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.anton-regular {
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+.font-kaku {
+  font-family: "Zen Kaku Gothic Antique", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+/* オープニング画面 */
+.opening{
+    position: fixed;
+    inset: 0;
+    background: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+
+    animation: opening-bg 3s forwards;
+}
+
+.opening img{
+    width: 320px;
+    animation: logo-drop 3s ease forwards;
+}
+
+/* ロゴが上から落ちてくる */
+@keyframes logo-drop{
+
+    0%{
+        transform: translateY(-200px);
+        opacity: 0;
+    }
+
+    40%{
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    70%{
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    100%{
+        transform: translateY(0);
+        opacity: 0;
+    }
+
+}
+
+/* 画面をフェードアウト */
+@keyframes opening-bg{
+
+    0%{
+        opacity: 1;
+    }
+
+    85%{
+        opacity: 1;
+    }
+
+    100%{
+        opacity: 0;
+        visibility: hidden;
+    }
+
+}
+.cover {
+    background-image: linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)), url(images/cover-mobile_pixelart\ \(1\).png);
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.header-inner{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header-inner h1{
+    margin: 0;
+}
+.logo {
+    width: 120px;
+}
+
+
+#drawer {
+  display: none;
+}
+
+label {
+  cursor: pointer;
+}
+
+/* 開閉ボタン本体 */
+.open {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 3000;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: none;
+  transition: background .3s ease;
+}
+
+.open:hover::before,
+.open:hover::after,
+.open:hover span{
+  background: #00AEEF;
+}
+/* 3本線 */
+.open span,
+.open::before,
+.open::after {
+  content: "";
+  position: absolute;
+  left: 30%;
+  width: 100%;
+  height: 2px;
+  background: black;
+  top: 50%;
+  transform-origin: center;
+  transition: background .3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.open span {
+    display: none;
+}
+
+.open::before {
+  transform: translateY(calc(-50% - 4px));
+}
+
+.open::after {
+  transform: translateY(calc(-50% + 4px));
+}
+
+/* 開いたとき：同じ位置で×に変化 */
+#drawer:checked + .open {
+  background: none;
+}
+
+#drawer:checked + .open span {
+  opacity: 0;
+}
+
+#drawer:checked + .open::before {
+  transform: rotate(45deg);
+}
+
+#drawer:checked + .open::after {
+  transform: rotate(-45deg);
+}
+
+/* 背景クリック用レイヤー */
+.close {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0);
+  transition: background .3s ease;
+}
+
+#drawer:checked ~ .close {
+  pointer-events: auto;
+  background: rgba(0, 0, 0, .35);
+}
+
+/* ドロワーメニュー本体 */
+.menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 2000;
+  width: 280px;
+  height: 100%;
+  margin: 0;
+  padding: 72px 10px 10px;
+  box-sizing: border-box;
+  overflow: auto;
+  background: rgba(255, 255, 255, 0.88);
+  transform: translateX(100%);
+  transition: transform .4s ease;
+}
+
+#drawer:checked ~ .menu {
+  transform: translateX(0);
+}
+
+/* メニュー文字 */
+/*.menu h2 {
+  color: black;
+  font-weight: 400;
+  letter-spacing: .1em;
+  text-align: center;
+}*/
+
+.menu ul {
+  margin-top: 100px;;
+  padding: 0;
+}
+
+.menu li {
+  list-style: none;
+  line-height: 1.4;
+  text-align: center;
+}
+
+/*.menu li:not(:first-child) {
+  border-top: 1px solid rgba(255,255,255,.25);
+}*/
+
+.menu a {
+  display: block;
+  padding: 1em 2em;
+  color: black;
+  text-decoration: none;
+  transition: color .3s ease, padding-left .3s ease, background .3s ease;
+}
+
+.menu a:hover {
+  color: #00AEEF;
+  padding-left: 2.4em;
+}
+
+
+.menu a:hover::after{
+  width:100%;
+}
+#drawer:checked ~ .menu {
+	transform: none;
+}
+.pc-nav{
+    display: none;
+}
+
+section {
+    padding: 20px 20px;
+}
+
+.main {
+    text-align: center;
+}
+.main-nav {
+    font-size: 17px;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+}
+
+.artist-photo-sp {
+    width: 100%;
+}
+.artist-photo-pc {
+    display: none;
+    }
+
+.band-name {
+    font-size: 3rem;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+}
+
+
+/* bottom */
+.btn a  {
+    color: white;
+    background-color: rgb(221, 151, 0);
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 40px;
+    padding: 16px 40px;
+    transition: .3s;
+}
+.btn:hover {
+    scale: 1.2;
+    rotate: -5deg;
+    translate: 10px;
+}
+
+.heading-medium {
+    font-size: 38px;
+    text-align: center;
+	margin-bottom: 30px;
+}
+
+/* SNS */
+.sns-item {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.1);
+	margin: 1rem;
+}
+/*.sns-item .heading-medium {
+    margin-bottom: .5rem;
+}
+*/
+.heading-medium {
+    font-size: 25px;
+}
+.sns-item .sns-youtube {
+    aspect-ratio: 16/9;
+}
+.sns-youtube iframe {
+    height: 100%;
+    width: 100%;
+}
+
+/*::DISOGRAOHY::*/
+.music-container img{
+        width: 70%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+}
+.music-container a:hover {
+        opacity: 0.5;
+        transition: 0.3s;
+}
+
+.ryosyu-container {
+    flex-direction: column;
+    text-align: center;
+}
+.ryosyu-container img {
+    max-width: 100%;
+    height: auto;
+    width: 300px;
+}
+
+/*PODCAST*/
+.podcast {
+    text-align: center;
+}
+.podcast img {
+    width: 70%;
+}
+.mongon {
+    font-size: 20px;
+}
+.haisin {
+    color: #00AEEF;
+}
+
+.mv-about {
+    text-align: center;
+    font-size: 18px;
+    font-weight: lighter;
+}
+.mv-about h2 {
+    font-weight: lighter;
+    font-size: 32px;
+}
+.mv-main {
+    margin-top: 10%;
+}
+
+
+.about {
+    text-align: center;
+    margin-top: -100px;
+}
+.profile-item {
+    background-image: url(../images/profile_back.jpeg);
+}
+.profile-item p {
+    background-color: aqua;
+}
+.profile-item img {
+    width: 50%;
+    height: 50%;    
+}
+
+/* animationプロパティの用意 */
+.fluffy {
+  animation: girl-animation 1.8s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes girl-animation {
+  0% {
+    transform: translateY(-12px);
+  }
+  100% {
+    transform: translateY(12px);
+  }
+}
+.rotate {
+  animation: yuki-animation 1.8s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes yuki-animation {
+  0% {
+    transform: rotateX(180deg);
+  }
+  100% {
+    transform: skewY(20deg);
+  }
+}
+
+.explain {
+    text-align: center;
+}
+
+.listen h2 {
+    text-align: center;
+}
+.listen-parents{
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    gap: 2rem;
+    text-align: center;
+}
+
+.listen-parents img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Profile */
+.member {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile {
+    display: flex;
+    justify-content: center;
+}
+.profile img {
+    text-align: center;
+    max-width: 100%;
+}
+
+.member p {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 0 .3rem;
+    line-height: 1.5;
+    letter-spacing: .03em;
+    text-align: left;
+}
+
+
+.career-item {
+    text-align: left;
+    margin-left: 20%;
+}
+
+/* :::::: live   :::::: */
+.live_fly {
+    max-width: 100%;
+}
+
+.title-top {
+    text-align: center;
+    font-size: 14px;
+    margin-top: -8%;
+}
+.title-head {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 20px;
+}
+.date {
+    font-size: 14px;
+}
+.place {
+    font-size: 14px;
+}
+
+/* :::::: footer :::::: */
+
+.footer {
+  padding: 60px 0;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  background: rgba(255,255,255,.6);
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  margin-bottom: 10px;
+  gap: 44px;
+}
+
+.footer-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-links img {
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+}
+
+.youtube-icon img {
+    transform: scale(1.3);
+}
+
+.copyright {
+	margin-top: 60px;
+	color: #553968;
+	font-family: "Ubuntu Condensed", sans-serif;
+	font-weight: 400;
+	letter-spacing: .1em;
+    font-size: 10px;
+    text-align: center;
+}
+
+.copyright small {
+	font-size: inherit;
+}
+
+
+/* :::::: footer :::::: */
+/*.align-center {
+	position: relative;
+	padding: 144px 24px 120px;
+	text-align: center;
+
+
+
+
+
+
+*デスクトップ版*/
+@media(min-width: 800px) {
+    /*見出し*/
+    .page-title {
+        font-size: 5rem;
+    }
+    .heading-large{
+        font-size: 4rem;
+    }
+    .post-title {
+        font-size: 2rem;
+    }
+
+    /* ヘッダー */
+    .logo{
+        content: url(images/TNL_logo.png);
+        width: 180px;
+        margin-top: 0;
+        display: block;
+    }
+
+   .header-inner.wrapper{
+        width: 100%;
+        max-width: 100%;
+        padding: 40px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+
+    .header-inner h1{
+        position: fixed;
+        top: 63px;
+        left: 40px;
+        z-index: 3000;
+        margin: 0;
+        line-height: 1;
+    }
+
+    .header-inner h1 a{
+        display: block;
+        line-height: 1;
+    }
+
+
+    /*.open{
+        position: fixed;
+        top: 20px;
+        right: 40px;
+        width: 48px;
+        justify-self: end;
+    }*/
+
+    .pc-nav{
+        display: block;
+    }
+
+    .pc-nav ul{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+        list-style: none;
+        margin-top: -90px;
+        padding: 0;
+        letter-spacing: 0.1rem;
+    }
+    .pc-nav li{
+        line-height: 1;
+    }
+
+    .pc-nav a{
+        display: inline-block;
+        line-height: 1;
+        color: black;
+        text-decoration: none;
+        font-weight: bold;
+        position: relative;
+        text-decoration: none;
+        transition: color .6s ease;
+    }
+
+     /* ハンバーガーを固定 */
+    .open{
+        position: fixed;
+        top: 25px;
+        right: 40px;
+        width: 48px;
+        height: 48px;   
+        z-index: 3001;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+    }
+     /* 下線 */
+    .pc-nav a:hover{
+        color: #00AEEF;
+     }
+    .pc-nav a::after{
+        content:"";
+        position:absolute;
+        left:0;
+        bottom:-6px;
+        width:0;
+        height:2px;
+        background:black;
+        transition:width .6s ease;
+    }
+
+/* hover */
+    .pc-nav a:hover::after{
+        width:100%;
+    }
+    .cover-home {
+        background-image: url(../images/cover_l.png);
+        height: auto;
+        padding-top: 120px;
+    }
+    
+
+    .artist-photo-sp {
+        display: none;
+    }
+
+	.artist-photo-pc {
+        display: block;
+        width: 90%;
+        max-width: 1000px;
+        margin: -100px auto 0;
+        padding: 1rem;
+    }
+	
+    img.my-image {
+        content: url("desktop-image.jpg");
+    }
+
+    
+    .sns-item{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 60px;
+    }
+    /*::: PROFILE :::*/
+    .profile img {
+        display: block;
+        width: 100%;
+        max-width: 1000px;
+        margin: -100px auto 0;
+    }
+    .member p {
+        width: 100%;
+        max-width: 1000px;
+}
+    /*::: DISCOGRAPHY :::*/
+    .music-row {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+    }
+    .music-container {
+        margin-top: -100px;
+        width: 100%;
+    }
+
+    .music-container img{
+        width: 70%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .music-container a:hover {
+        opacity: 0.5;
+        transition: 0.3s;
+    }
+
+    /* Discogarphy */
+    .ryosyu-container {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    /*:::: PODCAST :::*/
+    .podcast {
+    text-align: center;
+    margin-top: -100px;
+    }
+    .podcast img {
+    width: 45%;
+    }
+    .mongon {
+        font-size: 30px;
+    }
+    .profile-list {
+        display: flex;
+        justify-content: space-between;
+    }
+    .profile-item img {
+        height: 80%;
+        width: 80%;
+    }
+/*::: LIVE :::*/
+    .title-area {
+        text-align: center;
+        margin-top: -8%;
+    }
+    .title-top {
+        letter-spacing: 0.3rem;
+    }
+    .live_fly {
+        width: 40%;
+    }
+    .title-head {
+        display: flex;
+        gap: 16px;
+        align-items: baseline;
+    }
+    .date {
+        font-size: 30px;
+    }
+    .title {
+        font-size: 50px;
+        font-weight: bold;
+    }
+    .place {
+        display: flex;
+        justify-content: left;
+        font-size: 25px;
+    }
+    
+}
